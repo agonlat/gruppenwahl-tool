@@ -1,0 +1,178 @@
+/* ---- Global Styles ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f5f6fa;
+    color: #2b2b2b;
+    padding: 40px;
+}
+
+/* ---- Container ---- */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+}
+
+/* ---- Title ---- */
+h1, h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    color: #111;
+}
+
+h2 {
+    font-size: 22px;
+    margin-top: 40px;
+}
+
+/* ---- Input Fields ---- */
+input, select {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #d4d4d4;
+    background: #fafafa;
+    margin-bottom: 12px;
+    font-size: 15px;
+    transition: 0.2s ease-in-out;
+}
+
+input:focus, select:focus {
+    border-color: #6c63ff;
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+/* ---- Buttons ---- */
+button {
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+button.primary {
+    background: #6c63ff;
+    color: white;
+}
+
+button.primary:hover {
+    background: #5750d4;
+}
+
+button.secondary {
+    background: #ececec;
+    color: #333;
+}
+
+button.secondary:hover {
+    background: #dcdcdc;
+}
+
+/* ---- Cards (Groups, events, etc.) ---- */
+.card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #eeeeee;
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card-sub {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+/* ---- Flex Layout ---- */
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.col {
+    flex: 1;
+}
+
+/* ---- Status Badges ---- */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.badge.green {
+    background: #d9ffe0;
+    color: #0f8f3d;
+}
+
+.badge.red {
+    background: #ffe1e1;
+    color: #c93636;
+}
+
+.badge.yellow {
+    background: #fff4cc;
+    color: #b49100;
+}
+
+/* ---- Table Styles ---- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+th, td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #fafafa;
+    font-weight: 600;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 700px) {
+    .row {
+        flex-direction: column;
+    }
+
+    body {
+        padding: 20px;
+    }
+}

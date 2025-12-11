@@ -1,8 +1,6 @@
-# models.py
 from pydantic import BaseModel
-# Remove: from models import Student, SessionLocal (this caused the error)
+from typing import Optional
 
-# Pydantic Schema for Student registration input
 class StudentCreate(BaseModel):
     name: str
     matrikelnummer: str
@@ -10,6 +8,14 @@ class StudentCreate(BaseModel):
     semester: int
     email: str
 
-# You can add other Pydantic schemas here (e.g., GruppeBase, GruppeRead, etc.)
 
-# NOTE: The database connection setup and SQLAlchemy models are moved to database.py
+class GruppeReadWithSpots(BaseModel):
+    id: int
+    name: str
+    max_teilnehmer: int
+    veranstaltung_titel: str
+    belegte_plaetze: int
+    freie_plaetze: int
+
+    class Config:
+        orm_mode = True

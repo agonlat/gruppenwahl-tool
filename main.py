@@ -1,15 +1,17 @@
-# main.py
 from fastapi import FastAPI
-# Assuming 'routers' is the package name (e.g., a directory)
-from routers import studenten, gruppen
 from fastapi.staticfiles import StaticFiles
+from database import Base, engine
+from routers.studenten import router as studenten_router
+from routers.gruppen import router as gruppen_router
+from routers.veranstaltungen import router as veranstaltungen_router
 
-app = FastAPI(title="Gruppenwahlsystem")
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+app.include_router(studenten_router, prefix="/students", tags=["Students"])
+app.include_router(gruppen_router, prefix="/groups", tags=["Groups"])
+app.include_router(veranstaltungen_router, prefix="/events", tags=["Events"])
+
+# Static frontend
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
-# Router einbinden
-app.include_router(studenten.router, prefix="/studenten", tags=["Studenten"])
-app.include_router(gruppen.router, prefix="/gruppen", tags=["Gruppen"])
-
-@app.get("/")
-def root():
-    return {"message": "Gruppenwahlsystem läuft!"}

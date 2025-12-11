@@ -3,23 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Gruppenwahlsystem</title>
-    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Gruppenwahlsystem</h1>
+<h1>Gruppenwahlsystem</h1>
 
-    <h2>Student registrieren</h2>
-    <form id="studentForm">
-        <input type="text" id="name" placeholder="Name" required>
-        <input type="text" id="matrikelnummer" placeholder="Matrikelnummer" required>
-        <input type="text" id="studiengang" placeholder="Studiengang" required>
-        <input type="number" id="semester" placeholder="Semester" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <button type="submit">Registrieren</button>
-    </form>
+<h2>1. Student registrieren</h2>
+<form id="studentForm">
+    <input id="name" placeholder="Name" required>
+    <input id="matrikelnummer" placeholder="Matrikelnummer" required>
+    <input id="studiengang" placeholder="Studiengang" required>
+    <input id="semester" placeholder="Semester" type="number" required>
+    <input id="email" placeholder="E-Mail" type="email" required>
 
-    <div id="message"></div>
+    <button>Registrieren</button>
+</form>
 
-    <script src="script.js"></script>
+<p id="registrationMessage"></p>
+
+<div id="studentInfo" style="display:none;">
+    <p>Student: <span id="currentStudentName"></span></p>
+    <p>ID: <span id="currentStudentId"></span></p>
+</div>
+
+<hr>
+
+<h2>2. Gruppenübersicht</h2>
+<p id="groupMessage"></p>
+
+<table border="1" width="100%">
+<thead>
+<tr>
+    <th>Veranstaltung</th>
+    <th>Gruppe</th>
+    <th>Max</th>
+    <th>Belegt</th>
+    <th>Frei</th>
+    <th>Aktion</th>
+</tr>
+</thead>
+<tbody id="groupsTableBody">
+<tr><td colspan="6">Bitte zuerst registrieren.</td></tr>
+</tbody>
+</table>
+
+<script src="script.js"></script>
 </body>
 </html>

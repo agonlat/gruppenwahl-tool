@@ -1,58 +1,108 @@
-# gruppen.py
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from datetime import datetime
 
-# Import DB setup and SQLAlchemy models from the new file
-from database import Gruppe, GruppeAnmeldung, Student, SessionLocal 
+from database import Gruppe, GruppeAnmeldung, Student, Veranstaltung, get_db
+from models import GruppeReadWithSpots
+from utils.excel_export import export_gruppe_excel
+from typing import List
 
 router = APIRouter()
 
-# Dependency to get a DB session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-@router.post("/{gruppe_id}/anmelden/{student_id}")
-def anmelden(gruppe_id: int, student_id: int, db: Session = Depends(get_db)):
+@router.get("/", response_model=List[GruppeReadWithSpots])
+def group_list(db: Session = Depends(get_db)):
+    groups = db.query(Gruppe).all()
+    result = []
+
+    for g in groups:
+        belegte = db.query(GruppeAnmeldung).filter(
+            GruppeAnmeldung.gruppe_id == g.id,
+            GruppeAnmeldung.status == "angemeldet"
+        ).count()
+
+        v = db.query(Veranstaltung).filter(
+            Veranstaltung.id == g.veranstaltung_id
+        ).first()
+
+        result.append(GruppeReadWithSpots(
+            id=g.id,
+            name=g.name,
+            max_teilnehmer=g.max_teilnehmer,
+            veranstaltung_titel=v.titel if v else "Unbekannt",
+            belegte_plaetze=belegte,
+            freie_plaetze=max(0, g.max_teilnehmer - belegte)
+        ))
+
+    return result
+
+
+@router.post("/{gruppe_id}/register/{student_id}")
+def register_to_group(gruppe_id: int, student_id: int, db: Session = Depends(get_db)):
     gruppe = db.query(Gruppe).filter(Gruppe.id == gruppe_id).first()
-    
     if not gruppe:
-        raise HTTPException(status_code=404, detail="Gruppe not found")
-        
-    student = db.query(Student).filter(Student.id == student_id).first()
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
+        raise HTTPException(404, "Gruppe nicht gefunden")
 
-    # Check for existing Anmeldung
-    existing_anmeldung = db.query(GruppeAnmeldung).filter(
-        GruppeAnmeldung.gruppe_id == gruppe_id, 
+    event = db.query(Veranstaltung).filter(
+        Veranstaltung.id == gruppe.veranstaltung_id
+    ).first()
+
+    # Deadline check (Python 3.8 safe)
+    if event and event.ende:
+        event_end = event.ende.replace(tzinfo=None)
+        if datetime.now() > event_end:
+            raise HTTPException(403, "Einschreibefrist ist abgelaufen")
+
+    # Duplicate check
+    existing = db.query(GruppeAnmeldung).filter(
+        GruppeAnmeldung.gruppe_id == gruppe_id,
         GruppeAnmeldung.student_id == student_id
     ).first()
-    
-    if existing_anmeldung:
-        return {"message": f"Student {student_id} is already on the {existing_anmeldung.status} list for Gruppe {gruppe_id}."}
 
-    # Count currently registered students
-    angemeldet_count = db.query(GruppeAnmeldung).filter(
-        GruppeAnmeldung.gruppe_id == gruppe_id, 
+    if existing:
+        return {"message": f"Schon registriert: {existing.status}"}
+
+    belegte = db.query(GruppeAnmeldung).filter(
+        GruppeAnmeldung.gruppe_id == gruppe_id,
         GruppeAnmeldung.status == "angemeldet"
     ).count()
 
-    # Determine status
-    status = "angemeldet" if angemeldet_count < gruppe.max_teilnehmer else "warteliste"
-    
-    # Create new Anmeldung
-    anmeld = GruppeAnmeldung(
-        gruppe_id=gruppe_id, 
-        student_id=student_id, 
+    status = "angemeldet" if belegte < gruppe.max_teilnehmer else "warteliste"
+    msg = "Erfolgreich angemeldet!" if status == "angemeldet" else "Auf Warteliste gesetzt."
+
+    entry = GruppeAnmeldung(
+        gruppe_id=gruppe_id,
+        student_id=student_id,
         status=status,
-        created_at=datetime.now() # Add timestamp
+        created_at=datetime.now()
     )
-    db.add(anmeld)
+    db.add(entry)
     db.commit()
-    
-    return {"message": f"Student {student_id} wurde {status}."}
+
+    return {"message": msg, "status": status}
+
+
+@router.get("/{gruppe_id}/export")
+def export_group(gruppe_id: int, db: Session = Depends(get_db)):
+    gruppe = db.query(Gruppe).filter(Gruppe.id == gruppe_id).first()
+    if not gruppe:
+        raise HTTPException(404, "Gruppe nicht gefunden")
+
+    anmeldungen = db.query(GruppeAnmeldung).filter(
+        GruppeAnmeldung.gruppe_id == gruppe_id
+    ).all()
+
+    if not anmeldungen:
+        raise HTTPException(404, "Keine Anmeldungen")
+
+    export_data = []
+    for a in anmeldungen:
+        student = db.query(Student).filter(Student.id == a.student_id).first()
+        if student:
+            export_data.append((student, a.status, a.created_at))
+
+    filename = f"gruppe_{gruppe.name}_{datetime.now().strftime('%Y%m%d')}.xlsx"
+    path = export_gruppe_excel(export_data, filename)
+
+    return FileResponse(path, filename=filename)
