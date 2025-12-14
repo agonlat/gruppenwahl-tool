@@ -1,17 +1,21 @@
+# fileName: main.py (KORRIGIERT)
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from database import Base, engine
-from routers.studenten import router as studenten_router
-from routers.gruppen import router as gruppen_router
-from routers.veranstaltungen import router as veranstaltungen_router
+from database import Base, engine #
 
-Base.metadata.create_all(bind=engine)
+# Fügen Sie 'import models' hinzu, damit SQLAlchemy alle Tabellen kennt
+import models 
 
-app = FastAPI()
+from routers import studenten, gruppen, veranstaltungen #
 
-app.include_router(studenten_router, prefix="/students", tags=["Students"])
-app.include_router(gruppen_router, prefix="/groups", tags=["Groups"])
-app.include_router(veranstaltungen_router, prefix="/events", tags=["Events"])
+# Erstellt alle Tabellen, die in 'models.py' definiert sind
+Base.metadata.create_all(bind=engine) #
 
-# Static frontend
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app = FastAPI(title="Gruppenwahlsystem")
+
+app.include_router(studenten.router, prefix="/students") #
+app.include_router(gruppen.router, prefix="/groups") #
+app.include_router(veranstaltungen.router, prefix="/events") #
+
+# Stellt sicher, dass das Frontend aus dem 'static' Ordner geladen wird
+app.mount("/", StaticFiles(directory="static", html=True), name="static") #

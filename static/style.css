@@ -1,9 +1,11 @@
+/* fileName: style.css */
+
 /* ---- Global Styles ---- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+    font-family: Arial, sans-serif; 
 }
 
 body {
@@ -14,7 +16,7 @@ body {
 
 /* ---- Container ---- */
 .container {
-    max-width: 900px;
+    max-width: 1100px; /* Leicht vergrößert für Admin-Panel */
     margin: auto;
     background: white;
     padding: 30px;
@@ -22,7 +24,7 @@ body {
     box-shadow: 0 10px 40px rgba(0,0,0,0.06);
 }
 
-/* ---- Title ---- */
+/* ---- Titel und Trennung ---- */
 h1, h2 {
     font-weight: 600;
     margin-bottom: 20px;
@@ -38,14 +40,28 @@ h2 {
     margin-top: 40px;
 }
 
-/* ---- Input Fields ---- */
+h3 {
+    margin-bottom: 10px;
+    color: #6c63ff;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 30px 0;
+}
+
+/* ---- Formulare ---- */
+input, select, button {
+    margin-bottom: 12px;
+}
+
 input, select {
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid #d4d4d4;
     background: #fafafa;
-    margin-bottom: 12px;
     font-size: 15px;
     transition: 0.2s ease-in-out;
 }
@@ -57,10 +73,19 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
 }
 
+/* Labels für datetime-local */
+label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    margin-top: 8px;
+}
+
 /* ---- Buttons ---- */
 button {
-    padding: 12px 22px;
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
     font-size: 15px;
     border: none;
     cursor: pointer;
@@ -73,7 +98,7 @@ button.primary {
     color: white;
 }
 
-button.primary:hover {
+button.primary:hover:not([disabled]) {
     background: #5750d4;
 }
 
@@ -82,41 +107,21 @@ button.secondary {
     color: #333;
 }
 
-button.secondary:hover {
-    background: #dcdcdc;
+button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-/* ---- Cards (Groups, events, etc.) ---- */
-.card {
-    background: #ffffff;
-    border-radius: 14px;
+/* ---- Admin Panel Layout ---- */
+.admin-panel {
+    background: #f7f7ff;
+    border: 1px solid #e0e0ff;
     padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #eeeeee;
-    transition: 0.2s ease;
+    border-radius: 10px;
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-}
-
-.card-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.card-sub {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 12px;
-}
-
-/* ---- Flex Layout ---- */
 .row {
     display: flex;
-    justify-content: space-between;
     gap: 20px;
 }
 
@@ -127,8 +132,8 @@ button.secondary:hover {
 /* ---- Status Badges ---- */
 .badge {
     display: inline-block;
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
     font-size: 13px;
     font-weight: 500;
 }
@@ -156,9 +161,10 @@ table {
 }
 
 th, td {
-    padding: 14px 10px;
+    padding: 12px 10px;
     border-bottom: 1px solid #eee;
     text-align: left;
+    font-size: 14px;
 }
 
 th {
@@ -166,13 +172,49 @@ th {
     font-weight: 600;
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 700px) {
+/* Visuelle Hinweise in der Tabelle */
+.disabled-row {
+    opacity: 0.7;
+    background-color: #f7f7f7;
+}
+
+.waiting-list-row {
+    background-color: #fffde7; 
+}
+
+.available-row {
+    /* Keine zusätzliche Farbe, bleibt weiß */
+}
+
+.badge-cell {
+    text-align: center;
+}
+
+/* Nachrichten-Elemente */
+.message {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Admin Export Link */
+td a {
+    color: #6c63ff;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
     .row {
         flex-direction: column;
     }
 
-    body {
+    .container {
         padding: 20px;
     }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Studenten-Dashboard | Gruppenwahl</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+<div class="container">
+
+    <p style="text-align: right;"><a href="admin.html">Zum Admin-Panel (Test)</a></p>
+
+    <h1>Studenten-Dashboard</h1>
+
+    <h2>Anmeldung / Registrierung</h2>
+    <form id="studentForm">
+        <input id="name" placeholder="Name" required>
+        <input id="matrikelnummer" placeholder="Matrikelnummer (Login-ID)" required>
+        <input id="studiengang" placeholder="Studiengang (z.B. Informatik)" required>
+        <input id="semester" type="number" placeholder="Semester (z.B. 3)" required>
+        <input id="email" type="email" placeholder="E-Mail" required>
+        <button class="primary" type="submit">Registrieren / Anmelden</button>
+    </form>
+    <p id="registrationMessage"></p>
+    <p>Aktuelle Student-ID: <span id="currentStudentId">N/A</span></p>
+
+    <hr>
+    
+    <h2>Verfügbare Gruppen und Einschreibung</h2>
+    <table>
+    <thead>
+    <tr>
+    <th>Veranstaltung</th><th>Gruppe</th><th>Max</th>
+    <th>Belegt</th><th>Warteliste</th><th>Frei</th><th>Frist Ende</th><th>Aktion</th>
+    </tr>
+    </thead>
+    <tbody id="groupsTableBody"></tbody>
+    </table>
+
+</div>
+</body>
+</html>
