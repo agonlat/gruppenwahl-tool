@@ -1,0 +1,17 @@
+/* fileName: static/student.css */
+
+.login-form {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.login-form input {
+    margin-bottom: 10px;
+}
+
+#loginModeSwitch button {
+    cursor: pointer;
+    margin-right: 10px;
+}

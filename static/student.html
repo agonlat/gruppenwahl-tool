@@ -3,40 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>Studenten-Dashboard | Gruppenwahl</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="student.css">
+    <script src="student.js" defer></script>
 </head>
 <body>
 <div class="container">
 
-    <p style="text-align: right;"><a href="admin.html">Zum Admin-Panel (Test)</a></p>
+    <h1>Gruppenwahlsystem</h1>
 
-    <h1>Studenten-Dashboard</h1>
+    <p id="authMessage" style="min-height: 20px; font-weight: bold;"></p>
 
-    <h2>Anmeldung / Registrierung</h2>
-    <form id="studentForm">
-        <input id="name" placeholder="Name" required>
-        <input id="matrikelnummer" placeholder="Matrikelnummer (Login-ID)" required>
-        <input id="studiengang" placeholder="Studiengang (z.B. Informatik)" required>
-        <input id="semester" type="number" placeholder="Semester (z.B. 3)" required>
-        <input id="email" type="email" placeholder="E-Mail" required>
-        <button class="primary" type="submit">Registrieren / Anmelden</button>
-    </form>
-    <p id="registrationMessage"></p>
-    <p>Aktuelle Student-ID: <span id="currentStudentId">N/A</span></p>
+    <div id="authSection">
+        <h2>Studenten-Anmeldung</h2>
+        
+        <div id="loginModeSwitch" style="margin-bottom: 20px;">
+            <button id="showLogin" class="primary">Login</button>
+            <button id="showRegister" class="secondary">Registrieren</button>
+        </div>
 
-    <hr>
-    
-    <h2>Verfügbare Gruppen und Einschreibung</h2>
-    <table>
-    <thead>
-    <tr>
-    <th>Veranstaltung</th><th>Gruppe</th><th>Max</th>
-    <th>Belegt</th><th>Warteliste</th><th>Frei</th><th>Frist Ende</th><th>Aktion</th>
-    </tr>
-    </thead>
-    <tbody id="groupsTableBody"></tbody>
-    </table>
+        <form id="simpleLoginForm" class="login-form">
+            <p>Bitte melden Sie sich an.</p>
+            <input id="login_matrikelnummer" placeholder="Matrikelnummer" required>
+            <input id="login_password" type="password" placeholder="Passwort" required>
+            <button class="primary" type="submit">Einloggen</button>
+        </form>
+        
+        <form id="fullRegisterForm" class="login-form" style="display:none;">
+            <p>Neu hier? Erstellen Sie Ihren Account.</p>
+
+            <input id="reg_name" placeholder="Name" required>
+            <input id="reg_matrikelnummer" placeholder="Matrikelnummer" required>
+            <input id="reg_studiengang" placeholder="Studiengang" required>
+            <input id="reg_semester" type="number" placeholder="Semester" required>
+            <input id="reg_email" type="email" placeholder="E-Mail" required>
+
+            <input id="reg_password" type="password" placeholder="Passwort (mind. 8 Zeichen)" required>
+            <input id="reg_password_repeat" type="password" placeholder="Passwort wiederholen" required>
+
+            <button class="primary" type="submit">Registrieren & Einloggen</button>
+        </form>
+    </div>
+
+    <div id="dashboardSection" style="display:none;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Verfügbare Gruppen</h2>
+            <button id="logoutBtn" class="secondary">Abmelden</button>
+        </div>
+        
+        <p>Angemeldet als: <span id="studentNameDisplay">Gast</span> (Matrikel-Nr.: <span id="currentMatrikelDisplay">N/A</span>)</p>
+        <hr>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Veranstaltung</th><th>Gruppe</th><th>Max</th>
+                    <th>Belegt</th><th>Frei</th><th>Aktion</th>
+                </tr>
+            </thead>
+            <tbody id="groupsTableBody"></tbody>
+        </table>
+    </div>
 
 </div>
 </body>

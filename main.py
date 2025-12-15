@@ -1,9 +1,9 @@
-# fileName: main.py (KORRIGIERT)
+# fileName: main.py
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from database import Base, engine #
 
-# Fügen Sie 'import models' hinzu, damit SQLAlchemy alle Tabellen kennt
+# Samit SQLAlchemy alle Tabellen kennt
 import models 
 
 from routers import studenten, gruppen, veranstaltungen #
