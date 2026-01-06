@@ -158,7 +158,6 @@ function setupAdminListeners() {
         loadEventsForAdmin();
         loadGroups(true); // Lade Gruppen in der Admin-Ansicht
         
-        // --- Hier müssten die Event-Listener für Admin-Formulare folgen (groupForm, eventForm, etc.) ---
     }
 }
 
@@ -178,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (isAdminPage) {
         setupAdminListeners();
-        // Hier müsste die Implementierung der Formular-Listener für Admin-Aufgaben folgen
     }
     
     // Falls die ursprüngliche index.html geladen wird
