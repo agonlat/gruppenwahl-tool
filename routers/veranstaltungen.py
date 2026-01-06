@@ -3,10 +3,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime
-from pydantic import BaseModel # Hinzugefügt für die Modelle
+from pydantic import BaseModel
 
-from database import get_db #
-from models import Veranstaltung, VeranstaltungZielgruppe # Hinzugefügt: VeranstaltungZielgruppe
+from database import get_db 
+from models import Veranstaltung, VeranstaltungZielgruppe
 
 router = APIRouter()
 
