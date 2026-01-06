@@ -19,30 +19,6 @@ Dieses Projekt ist ein **Lern- / Hochschulprojekt** und erfüllt **nicht alle Si
 
 ---
 
-## Projektstruktur (vereinfacht)
-
-gruppenwahl-tool/
-│
-├── main.py # Startpunkt der FastAPI-App
-├── database.py # Datenbank-Verbindung & Sessions
-├── models.py # SQLAlchemy-Modelle (Student, Gruppen, etc.)
-│
-├── routers/
-│ ├── studenten.py # Login & Registrierung für Studierende
-│ └── admin.py # Admin-Endpunkte
-│
-├── static/
-│ ├── student.html # UI für Studierende
-│ ├── admin.html # UI für Sachbearbeiter (Admin)
-│ ├── student.js
-│ └── admin.js
-│
-└── database.db # SQLite-Datenbank (wird automatisch erstellt)
-
-yaml
-Copy code
-
----
 
 ## ▶️ Anwendung starten
 
